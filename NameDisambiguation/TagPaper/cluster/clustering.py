@@ -7,6 +7,8 @@ import logging
 import numpy as np
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s %(levelname)s %(message)s')
+
+#return : {tagged_data, centroids, cosine_similarity, data_eu_last_dist}
 def sequential_kmeans(data, k, k_inits,iter_num=None, init_a=None):
     # assigned centroid index
     tagged_data = [0 for i in range(len(data))]

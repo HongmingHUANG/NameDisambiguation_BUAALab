@@ -6,6 +6,7 @@ from sklearn.metrics.pairwise import euclidean_distances
 import sys
 import datetime
 import clustering
+import codecs
 
 '''
 compare clustering algorithm:
@@ -94,7 +95,7 @@ def process_and_write(path, tagged, centroids, cosine_2_cent):
         # slist.append(s/count)
 
         #==============write to file========================
-        with open(dir_path + str(ki) + ".txt", "w") as f:
+        with codecs.open(dir_path + str(ki) + '.txt', 'wb', 'utf-8') as f:
             # f.write(str(slist) + '\t' + str(a) + '\n')
             f.write(str(a) + '\n')
             for d in dists_sorted[:]:
