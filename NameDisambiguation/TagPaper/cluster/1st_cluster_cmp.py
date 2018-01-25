@@ -16,6 +16,11 @@ calculate silhouette coefficient & my defined 'a' if there is
 def euclidean_distance(v1, v2):
     return euclidean_distances([v1],[v2])[0][0]
 
+#vecs.npy saves the vector of all keywords.
+#words is the list of all keywords.
+#vecs is the list of all embedded vector of keywords.
+#afkmc2_init_vecs.npy saves the initial center of the 14 level-1 clusters.
+#k is the number of level-1 clusters.
 dwords = np.load("vecs.npy").item()
 words = list(dwords.keys())
 vecs = list(dwords.values())#[:int(len(words)/12)]
@@ -23,6 +28,7 @@ centroids = np.load("afkmc2_init_vecs.npy")
 k = len(centroids)
 
 time1 = datetime.datetime.now()
+#initialize the n*n matrix to store the distances.
 precomputed_distances = [[0 for i in range(len(vecs))] for j in range(len(vecs))]
 for ci in range(len(vecs)):
     for cj in range(ci, len(vecs)):
@@ -56,6 +62,7 @@ def calculate_s_score(index, tagged):
     s = (b_o - a_o + .0) / max(b_o, a_o)
     return s
 
+    
 def process_and_write(path, tagged, centroids, cosine_2_cent):
     '''
     :param path: write to path
@@ -72,6 +79,7 @@ def process_and_write(path, tagged, centroids, cosine_2_cent):
         cosine_dists = [cosine_2_cent[i] for i in label_index]
         #eu_dists = [eu_2_cent[i] for i in label_index]
         #===================my defined a===============
+        #a is the closest 1/3 vectors' average distance to center.
         dists_sorted = sorted([(label_index[i], cosine_dists[i]) for i in range(len(cosine_dists))]
                               , key=lambda a: a[1],reverse=True)
         a = (sum([d[1] for d in dists_sorted[:int(len(dists_sorted)/3)]]) + .0)/(len(dists_sorted)/3)
@@ -95,6 +103,9 @@ def process_and_write(path, tagged, centroids, cosine_2_cent):
                 f.write('\n')
         print("end process centroid {}".format(ki))
 
+#Clustering function.
+#Include many clustering function to choose.
+#Only activate the sequential k-means now.
 def cmp_clustering():
     '''
     #k-means
